@@ -118,3 +118,18 @@ class Flow(Distribution):
         """
         noise, _ = self._transform(inputs, context=self._embedding_net(context))
         return noise
+
+
+    def transform_to_data(self, inputs, context=None):
+        """Transforms given noise into data. Useful for goodness-of-fit checking.
+
+        Args:
+            inputs: A `Tensor` of shape [batch_size, ...], the data to be transformed.
+            context: A `Tensor` of shape [batch_size, ...] or None, optional context associated
+                with the data.
+
+        Returns:
+            A `Tensor` of shape [batch_size, ...], the noise.
+        """
+        noise, _ = self._transform.inverse(inputs, context=self._embedding_net(context))
+        return noise
